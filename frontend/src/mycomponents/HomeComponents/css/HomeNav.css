@@ -1,0 +1,118 @@
+/* Navbar */
+
+.custom-navbar{
+    background:#ffffff;
+    box-shadow:0 5px 20px rgba(0,0,0,0.08);
+    transition:.3s;
+    z-index:999;
+}
+
+/* Logo */
+
+.brand-logo{
+    color:#0d6efd !important;
+    letter-spacing:1px;
+}
+
+.brand-logo span{
+    color:#20c997;
+}
+
+/* Nav Links */
+
+.navbar-nav .nav-link{
+
+    color:#444 !important;
+    font-weight:600;
+    margin:0 8px;
+    transition:.3s;
+    position:relative;
+
+}
+
+.navbar-nav .nav-link:hover{
+
+    color:#0d6efd !important;
+
+}
+
+/* Active Link */
+
+.navbar-nav .nav-link.active{
+
+    color:#0d6efd !important;
+
+}
+
+.navbar-nav .nav-link::after{
+
+    content:"";
+    position:absolute;
+    left:0;
+    bottom:-4px;
+
+    width:0;
+    height:3px;
+
+    background:#0d6efd;
+    transition:.3s;
+    border-radius:20px;
+
+}
+
+.navbar-nav .nav-link:hover::after,
+.navbar-nav .nav-link.active::after{
+
+    width:100%;
+
+}
+
+/* Get Started Button */
+
+.appointment-btn{
+
+    background:linear-gradient(135deg,#20c997,#0d6efd);
+    border:none;
+    color:white;
+
+    transition:.3s;
+
+}
+
+.appointment-btn:hover{
+
+    transform:translateY(-2px);
+    box-shadow:0 8px 18px rgba(13,110,253,.35);
+
+}
+
+/* Mobile */
+
+@media(max-width:991px){
+
+    .navbar-nav{
+
+        text-align:center;
+        padding:20px 0;
+
+    }
+
+    .navbar-nav .nav-link{
+
+        margin:8px 0;
+
+    }
+
+    .d-flex{
+
+        flex-direction:column;
+
+    }
+
+    .d-flex .btn{
+
+        width:100%;
+
+    }
+
+}
