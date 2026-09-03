@@ -18,7 +18,7 @@ export const EditAdmin = () => {
     const navigate = useNavigate();
     const firstnameRef = useRef(null);
     const lastnameRef = useRef(null);
-
+    
     const mobileRef = useRef(null);
     useEffect(
         () => {

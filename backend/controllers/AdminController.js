@@ -27,7 +27,7 @@ exports.getAdminRegData = async (req, res) => {
                     message: "Email already exists"
                 }
             );
-            return
+            return;
         }
 
 
@@ -50,7 +50,7 @@ exports.getAdminRegData = async (req, res) => {
                     success: true
                 }
             )
-            return
+            return;
         }
 
 
@@ -173,7 +173,6 @@ exports.getUpdatedData = async (req, res) => {
         )
     }
 }
-
 exports.getDeleteAdmin = async (req, res) => {
     try {
         console.log("Received Data", req.body);
@@ -182,19 +181,7 @@ exports.getDeleteAdmin = async (req, res) => {
 
         const RecordDelete = await AdminData.findOneAndDelete({ email: eml });
 
-        await SecurityData.findOneAndDelete({ email: eml });
-
         console.log(RecordDelete);
-
-        if (RecordDelete) {
-            res.status(200).json(
-                {
-                    success: true,
-                    message: "Data deleted successfully"
-                }
-            )
-            return;
-        }
 
         if (!RecordDelete) {
             return res.status(404).json({
@@ -203,16 +190,22 @@ exports.getDeleteAdmin = async (req, res) => {
             });
         }
 
+        await SecurityData.findOneAndDelete({ email: eml });
+
+        return res.status(200).json({
+            success: true,
+            message: "Data deleted successfully"
+        });
 
     } catch (error) {
         console.log(error);
-        res.status(500).json(
-            {
-                Error: "Something went wrong try again"
-            }
-        )
+
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong try again"
+        });
     }
-}
+};
 
 
 exports.findSuperAdmin = async (req, res) => {
@@ -250,7 +243,7 @@ exports.UpdateSuperAdminProfile = async (req, res) => {
 
         const update = { firstName: firstname, lastName: lastname, mobile: mob, gender: gender };
 
-        const SuperAdminUpdate = await AdminData.findOneAndUpdate(filter, update, { returnDocument : "before" });
+        const SuperAdminUpdate = await AdminData.findOneAndUpdate(filter, update, { returnDocument: "before" });
 
         console.log("After Update", SuperAdminUpdate);
 

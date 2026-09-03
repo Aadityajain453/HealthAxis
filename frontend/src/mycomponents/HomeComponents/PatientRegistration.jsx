@@ -127,7 +127,7 @@ export const PatientRegistration = () => {
                 </div>
 
                 <div className="my-3">
-                    <label htmlFor="cpas" className="fw-bold">Mobile No. :</label>
+                    <label htmlFor="cpas" className="fw-bold">Confirm Password :</label>
                     <input className="form-control" type="text" id="cpas" value={confirmpassword} placeholder="your confirm password" onChange={(event) => setConfirmPassword(event.target.value)} />
                 </div>
 

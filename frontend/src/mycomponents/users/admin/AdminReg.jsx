@@ -15,7 +15,7 @@ export const AdminReg = () => {
 
 
 
-   
+
 
     const handleFirstName = (str) => {
 

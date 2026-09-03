@@ -16,6 +16,13 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { EditAdmin } from './mycomponents/users/admin/EditAdmin';
 import { EditSuperAdmin } from './mycomponents/users/admin/EditSuperAdmin';
+import DoctorRegistration from './mycomponents/users/admin/DoctorRegistration';
+import { ShowDoctors } from './mycomponents/users/admin/ShowDoctors';
+import { EditDoctor } from './mycomponents/users/admin/EditDoctor';
+import { AddPatient } from './mycomponents/users/admin/AddPatient';
+import { ShowPatients } from './mycomponents/users/admin/ShowPatients';
+import { ViewPatientsFullDetails } from './mycomponents/users/admin/ViewPatient';
+import { EditPatient } from './mycomponents/users/admin/EditPatient';
 
 
 function App() {
@@ -47,6 +54,13 @@ function App() {
           <Route path='/superadminprofile' element={<SuperAdminProfile />} />
           <Route path='/edit_admin/:eml' element={< EditAdmin/>} />
           <Route path='/edit_superadmin/:eml' element={< EditSuperAdmin/>} />
+          <Route path='/adddoctor' element={<DoctorRegistration/>}/>
+          <Route path='/showdoctor' element={<ShowDoctors/>}/>
+          <Route path='/edit_doctor/:eml' element={<EditDoctor/>}/>
+          <Route path='/addpatient' element={<AddPatient/>}/>
+          <Route path='/showpatient' element={<ShowPatients/>}/>
+          <Route path='/view_patient/:ptId' element={<ViewPatientsFullDetails/>}/>
+          <Route path='/edit_patient/:ptId' element={<EditPatient/>}/>
 
         </Routes>
       </Router>

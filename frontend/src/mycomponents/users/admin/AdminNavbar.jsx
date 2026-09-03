@@ -26,6 +26,21 @@ function AdminNavbar() {
                             </NavDropdown.Item>
 
                         </NavDropdown>
+
+                        <NavDropdown title="Doctor" id="basic-nav-dropdown">
+                            <NavDropdown.Item as={Link} to={'/adddoctor'} >Add Doctor</NavDropdown.Item>
+
+                            <NavDropdown.Item as={Link} to={'/showdoctor'} >Show Doctors</NavDropdown.Item>
+
+                        </NavDropdown>
+
+                        <NavDropdown title="Patient" id="basic-nav-dropdown">
+                            <NavDropdown.Item as={Link} to={'/addpatient'} >Add Patient</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={'/showpatient'} >Show Patient</NavDropdown.Item>
+
+                        </NavDropdown>
+
+
                     </Nav>
                 </Navbar.Collapse>
             </Container>

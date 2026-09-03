@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const AdminSchema = require('./AdminSchema');
 
 const DoctorSchema = new mongoose.Schema({
 
@@ -41,17 +40,19 @@ const DoctorSchema = new mongoose.Schema({
 
     qualification: {
         type: String,
-        required: true,
+        required: true,   
     },
 
     experience: {
         type: Number,
         required: true,
+        min : 0,
     },
 
     consultation_fee: {
         type: Number,
         required: true,
+        min : 0,
     },
 
     role: {
