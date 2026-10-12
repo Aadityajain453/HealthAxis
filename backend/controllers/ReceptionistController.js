@@ -80,3 +80,65 @@ exports.getReceptionistRegData = async (req, res) => {
         });
     }
 };
+
+exports.showReceptionists = async (req, res) => {
+
+    try {
+
+        const ReceptionistRecords = await ReceptionistData.find({
+            role: "receptionist"
+        });
+
+        res.json(ReceptionistRecords);
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong, try again"
+        });
+    }
+};
+
+exports.sendEditReceptionistData = async (req, res) => {
+
+    try {
+
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            });
+        }
+
+        const ReceptionistRecord = await ReceptionistData.findOne({
+            email: email,
+            role: "receptionist"
+        });
+
+        if (!ReceptionistRecord) {
+            return res.status(404).json({
+                success: false,
+                message: "Receptionist not found"
+            });
+        }
+
+        res.json({
+            success: true,
+            data: ReceptionistRecord
+        });
+
+    } catch (error) {
+
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong, try again"
+        });
+    }
+};

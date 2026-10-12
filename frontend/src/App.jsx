@@ -35,6 +35,7 @@ import ReceptionistViewPatient from './mycomponents/users/receptionist/Reception
 import ReceptionistEditPatient from './mycomponents/users/receptionist/ReceptionistEditPatient';
 import ReceptionistRegistrataion from './mycomponents/users/admin/ReceptionistRegistration';
 import ShowReceptionist from './mycomponents/users/admin/ShowReceptionist';
+import EditReceptionist from './mycomponents/users/admin/EditReceptionist';
 
 
 
@@ -90,6 +91,7 @@ function App() {
           <Route path='/receptionist/patients' element={<ReceptionistPatients/>}/>
           <Route path='/receptionist/patients/view/:ptId' element={<ReceptionistViewPatient/>}/>
           <Route path='/receptionist/patients/edit/:ptId' element={<ReceptionistEditPatient/>}/>
+          <Route path='/edit_receptionist/:email' element={<EditReceptionist/>}/>
         </Routes>
       </Router>
     </>
