@@ -75,7 +75,8 @@ exports.getDoctorRegData = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -93,7 +94,8 @@ exports.sendDoctorData = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -116,7 +118,8 @@ exports.sendEditDoctorData = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -164,7 +167,8 @@ exports.updateDoctorData = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -177,12 +181,19 @@ exports.getDeleteDoctor = async (req, res) => {
         const em = req.body.email;
         console.log(em);
 
+        if (!em) {
+            return res.status(400).json(
+                {
+                    success: false,
+                    message: "Doctor email is required"
+                }
+            )
+        }
+
         const DeleteDoctorRecord = await DoctorData.findOneAndDelete({ email: em });
 
 
-
-        console.log(DeleteDoctorRecord);
-
+        console.log("Deleted Doctor:", DeleteDoctorRecord);
 
 
         if (!DeleteDoctorRecord) {
@@ -203,7 +214,8 @@ exports.getDeleteDoctor = async (req, res) => {
     } catch (error) {
         console.log(error);
         res.status(500).json({
-            Error: "Something went wrong try again"
+            success: false,
+            message: "Something went wrong, try again"
         })
     }
 }

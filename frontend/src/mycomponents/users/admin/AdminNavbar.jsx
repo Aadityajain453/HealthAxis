@@ -12,7 +12,7 @@ function AdminNavbar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link as={Link} to={'/'} >Dashoard</Nav.Link>
+                        <Nav.Link as={Link} to={'/admin/dashboard'} >Dashoard</Nav.Link>
 
                         <NavDropdown title="Admin" id="basic-nav-dropdown">
                             <NavDropdown.Item as={Link} to={'/addadmin'} >Add Admin</NavDropdown.Item>
@@ -38,6 +38,11 @@ function AdminNavbar() {
                             <NavDropdown.Item as={Link} to={'/addpatient'} >Add Patient</NavDropdown.Item>
                             <NavDropdown.Item as={Link} to={'/showpatient'} >Show Patient</NavDropdown.Item>
 
+                        </NavDropdown>
+
+                        <NavDropdown title="Receptionist">
+                            <NavDropdown.Item as={Link} to={'/receptionist_registration'}>Add Receptionist</NavDropdown.Item>
+                            <NavDropdown.Item as={Link} to={'/show_receptionist_details'}>Show Receptionist</NavDropdown.Item>
                         </NavDropdown>
 
 

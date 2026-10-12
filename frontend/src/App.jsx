@@ -1,7 +1,7 @@
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import { HomePage } from './mycomponents/HomeComponents/HomePage';
 import 'bootstrap/dist/css/bootstrap.css';
-import { Login } from './mycomponents/users/Login';
+import { Login } from './mycomponents/HomeComponents/Login';
 import { About } from './mycomponents/HomeComponents/About';
 import { Service } from './mycomponents/HomeComponents/Services';
 import { Features } from './mycomponents/HomeComponents/Features';
@@ -23,6 +23,19 @@ import { AddPatient } from './mycomponents/users/admin/AddPatient';
 import { ShowPatients } from './mycomponents/users/admin/ShowPatients';
 import { ViewPatientsFullDetails } from './mycomponents/users/admin/ViewPatient';
 import { EditPatient } from './mycomponents/users/admin/EditPatient';
+import BookAppointment from './mycomponents/users/patient/BookAppointment';
+import { PatientHome } from './mycomponents/users/patient/PatientHome';
+import { MyAppointment } from './mycomponents/users/patient/MyAppointments';
+import PatientProfile from './mycomponents/users/patient/PatientProfile';
+import EditPatientProfile from './mycomponents/users/patient/EditPatientProfile';
+import ReceptionistHome from './mycomponents/users/receptionist/ReceptionistHome';
+import ReceptionistAppointments from './mycomponents/users/receptionist/ReceptionistAppointments';
+import ReceptionistPatients from './mycomponents/users/receptionist/ReceptionistPatients';
+import ReceptionistViewPatient from './mycomponents/users/receptionist/ReceptionistViewPatient';
+import ReceptionistEditPatient from './mycomponents/users/receptionist/ReceptionistEditPatient';
+import ReceptionistRegistrataion from './mycomponents/users/admin/ReceptionistRegistration';
+import ShowReceptionist from './mycomponents/users/admin/ShowReceptionist';
+
 
 
 function App() {
@@ -40,15 +53,16 @@ function App() {
           theme="light"
         />
         <Routes>
-          {/* <Route path='/' element={<HomePage/>}/>
+          <Route path='/' element={<HomePage/>}/>
           <Route path='/login' element={<Login/>}/>
           <Route path='/about' element={<About/>}/>
           <Route path='/service' element={<Service/>}/>
           <Route path='/features' element={<Features/>}/>
           <Route path='/doctor' element={<Doctor/>}/>
           <Route path='/contact' element={<Contact/>}/>
-          <Route path='/patientreg' element={<PatientRegistration/>}/> */}
-          <Route path='/' element={<AdminDashboard />} />
+          <Route path='/patientreg' element={<PatientRegistration/>}/>
+
+          <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/addadmin' element={<AdminReg />} />
           <Route path='/showadmin' element={<ShowAdmin />} />
           <Route path='/superadminprofile' element={<SuperAdminProfile />} />
@@ -61,7 +75,21 @@ function App() {
           <Route path='/showpatient' element={<ShowPatients/>}/>
           <Route path='/view_patient/:ptId' element={<ViewPatientsFullDetails/>}/>
           <Route path='/edit_patient/:ptId' element={<EditPatient/>}/>
+          <Route path='/receptionist_registration' element={<ReceptionistRegistrataion/>}/>
+          <Route path='/show_receptionist_details' element={<ShowReceptionist/>}/>
 
+          <Route path='/book-appointment' element={<BookAppointment/>}/>
+          <Route path='/patient/home' element={<PatientHome/>}/>
+          <Route path='/my-appointment' element={<MyAppointment/>}/>
+          <Route path='/myprofile' element={<PatientProfile/>}/>
+          <Route path='/edit_patient_profile' element={<EditPatientProfile/>}/>
+          
+
+          <Route path='/receptionist' element={<ReceptionistHome/>}/>
+          <Route path='/receptionist/appointments' element={<ReceptionistAppointments/>}/>
+          <Route path='/receptionist/patients' element={<ReceptionistPatients/>}/>
+          <Route path='/receptionist/patients/view/:ptId' element={<ReceptionistViewPatient/>}/>
+          <Route path='/receptionist/patients/edit/:ptId' element={<ReceptionistEditPatient/>}/>
         </Routes>
       </Router>
     </>

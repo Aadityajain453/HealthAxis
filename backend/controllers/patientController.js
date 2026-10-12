@@ -66,7 +66,8 @@ exports.getPatientRegData = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -84,7 +85,8 @@ exports.fetchPatientsData = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -104,7 +106,8 @@ exports.fetchPatientsAllDetails = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -126,7 +129,8 @@ exports.sendDataForEdit = async (req, res) => {
         console.log(error);
         res.status(500).json(
             {
-                Error: "Something went wrong try again"
+                success: false,
+                message: "Something went wrong, try again"
             }
         )
     }
@@ -136,7 +140,7 @@ exports.sendDataForEdit = async (req, res) => {
 exports.UpdatePatientData = async (req, res) => {
     try {
 
-        await new Promise(resolve => setTimeout(resolve, 3000));
+        await new Promise(resolve => setTimeout(resolve, 1500));
         console.log("Received Patient Data For Update :", req.body);
 
         const {
@@ -207,6 +211,117 @@ exports.UpdatePatientData = async (req, res) => {
             success: true,
             message: "Patient data updated successfully",
             data: UpdatedRecord
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            success: false,
+            Error: "Something went wrong, try again"
+        });
+    }
+};
+
+exports.patientDeleteAPI = async (req, res) => {
+    try {
+        console.log("ComingDeleteData", req.body);
+
+        const PtId = req.body.patientID;
+
+        if (!PtId) {
+            return res.status(400).json({
+                success: false,
+                message: "Patient ID is required"
+            });
+        }
+
+        const DeleteRecord = await PatientData.findOneAndDelete({ patientID: PtId });
+
+        console.log("Record after delete", DeleteRecord);
+
+        if (!DeleteRecord) {
+            return res.status(404).json(
+                {
+                    success: false,
+                    message: "Patient not found"
+                }
+            )
+        }
+
+        await SecurityData.findOneAndDelete({ email: DeleteRecord.email });
+
+        return res.status(200).json(
+            {
+                success: true,
+                message: "Patient deleted successfully"
+            }
+        )
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json(
+            {
+                success: false,
+                message: "Something went wrong, try again"
+            }
+        )
+    }
+}
+
+
+exports.searchPatientsData = async (req, res) => {
+    try {
+
+        console.log("Search Data:", req.body);
+
+       const search = req.body.search.trim();
+
+        console.log("Search Value:", `"${search}"`);
+
+        if (!search) {
+            return res.status(400).json({
+                success: false,
+                message: "Search value is required"
+            });
+        }
+
+        // Convert search value into regex-safe text
+        const safeSearch = search.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
+
+        const SearchRecords = await PatientData.aggregate([
+            {
+                $match: {
+                    $or: [
+                        { patientID: { $regex: safeSearch, $options: "i" } },
+                        { firstname: { $regex: safeSearch, $options: "i" } },
+                        { lastname: { $regex: safeSearch, $options: "i" } },
+                        {
+                            $expr: {
+                                $regexMatch: {
+                                    input: {
+                                        $concat: ["$firstname", " ", "$lastname"]
+                                    },
+                                    regex: safeSearch,
+                                    options: "i"
+                                }
+                            }
+                        },
+                        { email: { $regex: safeSearch, $options: "i" } },
+                        { mobile: { $regex: safeSearch, $options: "i" } },
+                        { gender: { $regex: safeSearch, $options: "i" } },
+                        { bloodgroup: { $regex: safeSearch, $options: "i" } },
+                        { city: { $regex: safeSearch, $options: "i" } }
+                    ]
+                }
+            }
+        ]);
+
+        console.log("Search Results:", SearchRecords);
+
+        return res.status(200).json({
+            success: true,
+            data: SearchRecords
         });
 
     } catch (error) {

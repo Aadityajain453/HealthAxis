@@ -8,14 +8,25 @@ const app = express();
 const PatientRoutes = require('./routes/PatientRouters');
 const AdminRoutes = require('./routes/AdminRouters');
 const DoctorRoutes = require('./routes/DoctorRoutes');
+const AppointmentRoutes = require('./routes/AppointmentRouters');
+const LoginRoutes = require('./routes/LoginRoutes');
+const ReceptionistRoutes = require('./routes/ReceptionRouters');
+const session = require('express-session');
 
 // middleware
 
 app.use(express.json()); // Parse incoming JSON requests
 
-app.use(cors()); // Allow requests from React
+app.use(cors({
+    origin: "http://localhost:5173",
+    credentials: true
+})); // Allow requests from React
 
-
+app.use(session({
+    secret: "healthaxis-secret",
+    resave: false,
+    saveUninitialized: false
+}));
 
 // Access the variables using process.env
 
@@ -30,6 +41,10 @@ mongoose.connect(process.env.MongoDB_URL).then(() => console.log("Connected to m
 app.use('/api/patient', PatientRoutes);
 app.use('/api/admin', AdminRoutes);
 app.use('/api/doctor', DoctorRoutes);
+app.use('/api/appointment', AppointmentRoutes);
+app.use('/api/receptionist' , ReceptionistRoutes);
+app.use('/api/login', LoginRoutes);
+
 
 
 app.listen(port, () => {

@@ -1,13 +1,79 @@
 import { useState } from "react";
 import '../HomeComponents/css/LoginStyle.css';
-import { HomeNavbar } from "../HomeComponents/navbars/HomeNavbar";
+import { HomeNavbar } from "./navbars/HomeNavbar";
 import hospital from "../../assets/hospital.png";
+import axios from "axios";
+import { replace, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export const Login = () => {
 
     const [role, setRole] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+
+    const navigate = useNavigate();
+
+
+    const handleLogin = async () => {
+
+        if (!email || !password || !role) {
+            toast.error("Please fill all fields");
+            return;
+        }
+
+        try {
+
+            const response = await axios.post(
+                "http://localhost:5000/api/login/login",
+                {
+                    email: email,
+                    password: password,
+                    role: role
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
+            console.log(response.data);
+
+            if (response.data.success) {
+
+                toast.success("Login successful");
+
+                if (response.data.usertype === "patient") {
+                    navigate("/patient/home", { replace: true });
+                }
+                else if (response.data.usertype === "superadmin") {
+                    navigate("/admin/dashboard", { replace: true });
+                }
+
+                else if (response.data.usertype === "admin") {
+                    navigate("/");
+                }
+
+                else if (response.data.usertype === "doctor") {
+                    navigate("/doctor-dashboard");
+                }
+
+                else if (response.data.usertype === "receptionist") {
+                    navigate("/receptionist-dashboard");
+                }
+            }
+
+        } catch (error) {
+
+            console.log(error);
+
+            if (error.response) {
+                toast.error(error.response.data.message);
+            } else {
+                toast.error("Server error");
+            }
+        }
+    };
+
 
     return (
         <>
@@ -82,6 +148,21 @@ export const Login = () => {
                             onChange={(e) => setEmail(e.target.value)}
                         />
 
+                        <select
+                            value={role}
+                            onChange={(e) => setRole(e.target.value)}
+                        >
+                            <option value="" disabled>
+                                Select Role
+                            </option>
+
+                            <option value="superadmin">Super Admin</option>
+                            <option value="admin">Admin</option>
+                            <option value="doctor">Doctor</option>
+                            <option value="receptionist">Receptionist</option>
+                            <option value="patient">Patient</option>
+                        </select>
+
                         <input
                             type="password"
                             placeholder="Password"
@@ -103,7 +184,7 @@ export const Login = () => {
 
                         </div>
 
-                        <button>
+                        <button onClick={handleLogin}>
 
                             Login
 
