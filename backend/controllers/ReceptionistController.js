@@ -142,3 +142,44 @@ exports.sendEditReceptionistData = async (req, res) => {
         });
     }
 };
+
+exports.updateReceptionistData = async (req, res) => {
+    try {
+
+        const { firstname, lastname, email, mobile, gender, status } = req.body;
+
+        if (!email || !firstname || !lastname || !mobile || !gender || !status) {
+            return res.status(400).json({
+                success: false,
+                message: "Please fill all fields"
+            });
+        }
+
+        const updateReceptionistRecord = await ReceptionistData.findOneAndUpdate(
+            { email: email, role: "receptionist" },
+            { firstname, lastname, mobile, gender, status },
+            { new: true, runValidators: true }
+        );
+
+        if (!updateReceptionistRecord) {
+            return res.status(404).json({
+                success: false,
+                message: "Receptionist not found"
+            });
+        }
+
+        return res.json({
+            success: true,
+            message: "Receptionist updated successfully",
+            data: updateReceptionistRecord
+        });
+
+    } catch (error) {
+        console.log(error);
+
+        res.status(500).json({
+            success: false,
+            message: "Something went wrong, try again"
+        });
+    }
+}
