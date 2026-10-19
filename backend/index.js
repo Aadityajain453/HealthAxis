@@ -42,7 +42,7 @@ app.use('/api/patient', PatientRoutes);
 app.use('/api/admin', AdminRoutes);
 app.use('/api/doctor', DoctorRoutes);
 app.use('/api/appointment', AppointmentRoutes);
-app.use('/api/receptionist' , ReceptionistRoutes);
+app.use('/api/receptionist', ReceptionistRoutes);
 app.use('/api/login', LoginRoutes);
 
 

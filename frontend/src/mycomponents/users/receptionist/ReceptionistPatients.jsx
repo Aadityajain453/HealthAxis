@@ -104,6 +104,15 @@ const ReceptionistPatients = () => {
                     Show Patients
                 </h2>
 
+                <div className="text-end mb-3">
+                    <Link
+                        to="/receptionist/patients/add"
+                        className="btn btn-success"
+                    >
+                        Add Patient
+                    </Link>
+                </div>
+
                 <div className="row mb-3">
 
                     <div className="col-md-6 mx-auto">

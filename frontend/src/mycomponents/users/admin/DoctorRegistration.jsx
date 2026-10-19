@@ -346,7 +346,7 @@ const DoctorRegistration = () => {
                     <input
                         ref={passwordref}
                         className="form-control"
-                        type="text"
+                        type="password"
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
                         id="password" />
@@ -360,7 +360,7 @@ const DoctorRegistration = () => {
                     <input
                         ref={confirmref}
                         className="form-control"
-                        type="text"
+                        type="password"
                         id="confirmPassword"
                         value={confirm}
                         onChange={(event) => setConfirm(event.target.value)}

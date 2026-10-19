@@ -27,12 +27,14 @@ const EditPatientProfile = () => {
         fetchPatientProfile();
     }, []);
 
+
     const fetchPatientProfile = async () => {
         try {
             const response = await axios.post(
                 "http://localhost:5000/api/patient/fetchpatientdetails",
+                {},
                 {
-                    ptId: "PAT1001"
+                    withCredentials: true
                 }
             );
 
@@ -41,9 +43,12 @@ const EditPatientProfile = () => {
             setOriginalPatient(response.data);
 
         } catch (error) {
-            console.log(error);
+            console.log("Fetch Profile Error:", error.response?.data || error.message);
+            toast.error(
+                error.response?.data?.message || "Unable to fetch profile"
+            );
         }
-    }
+    };
 
 
     const handleChange = (e) => {
@@ -71,19 +76,26 @@ const EditPatientProfile = () => {
             return;
         }
         try {
-            const response = await axios.put("http://localhost:5000/api/patient/UpdatePatientData", {
-                firstname: patient.firstname,
-                lastname: patient.lastname,
-                mobile: patient.mobile,
-                gender: patient.gender,
-                address: patient.address,
-                pincode: patient.pincode,
-                dob: patient.dob,
-                bloodgroup: patient.bloodgroup,
-                city: patient.city,
-                state: patient.state,
-                ptId: "PAT1001"
-            })
+
+            const response = await axios.put(
+                "http://localhost:5000/api/patient/UpdatePatientData",
+                {
+                    firstname: patient.firstname,
+                    lastname: patient.lastname,
+                    mobile: patient.mobile,
+                    gender: patient.gender,
+                    address: patient.address,
+                    pincode: patient.pincode,
+                    dob: patient.dob,
+                    bloodgroup: patient.bloodgroup,
+                    city: patient.city,
+                    state: patient.state
+                },
+                {
+                    withCredentials: true
+                }
+            );
+
 
             console.log(response.data);
 
@@ -94,7 +106,15 @@ const EditPatientProfile = () => {
             }
 
         } catch (error) {
-            console.log(error);
+            console.log(
+                "Update Profile Error:",
+                error.response?.data || error.message
+            );
+
+            toast.error(
+                error.response?.data?.message ||
+                "Unable to update profile"
+            );
         }
     }
 

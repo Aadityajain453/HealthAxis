@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
-import { Table, Button, Badge, Container } from 'react-bootstrap';
+import { Table, Badge, Container } from 'react-bootstrap';
 import { toast } from 'react-toastify';
 import ReceptionistNavbar from './ReceptionistNavbar';
 
@@ -16,7 +16,7 @@ const ReceptionistAppointments = () => {
             setLoading(true);
 
             const response = await axios.post(
-                "http://localhost:5000/api/appointment/showAppointments"
+                "http://localhost:5000/api/appointment/showAppointments", {}, { withCredentials: true }
             );
 
             if (response.data.success) {
@@ -36,60 +36,66 @@ const ReceptionistAppointments = () => {
 
 
     // Update appointment status
-    const updateStatus = async (appointmentID, status) => {
+    // const updateStatus = async (appointmentID, status) => {
 
-        try {
+    //     try {
 
-            const response = await axios.put(
-                "http://localhost:5000/api/appointment/updateAppointmentStatus",
-                {
-                    appointmentID: appointmentID,
-                    status: status
-                }
-            );
+    //         const response = await axios.put(
+    //             "http://localhost:5000/api/appointment/updateAppointmentStatus",
+    //             {
+    //                 appointmentID: appointmentID,
+    //                 status: status
+    //             },
+    //             {
+    //                 withCredentials : true
+    //             }
+    //         );
 
-            if (response.data.success) {
+    //         if (response.data.success) {
 
-                toast.success(`Appointment ${status}`);
+    //             toast.success(`Appointment ${status}`);
 
-                fetchAppointments();
-            }
+    //             fetchAppointments();
+    //         }
 
-        } catch (error) {
+    //     } catch (error) {
 
-            console.log("Update Status Error:", error);
+    //         console.log("Update Status Error:", error);
 
-            toast.error("Unable to update appointment status");
-        }
-    };
+    //         toast.error("Unable to update appointment status");
+    //     }
+    // };
 
 
     // Cancel appointment
-    const cancelAppointment = async (appointmentID) => {
+    // const cancelAppointment = async (appointmentID) => {
 
-        try {
+    //     try {
 
-            const response = await axios.put(
-                "http://localhost:5000/api/appointment/cancelAppointment",
-                {
-                    appointmentID: appointmentID
-                }
-            );
+    //         const response = await axios.put(
+    //             "http://localhost:5000/api/appointment/cancelAppointment",
+    //             {
+    //                 appointmentID: appointmentID
+    //             },
+    //             {
+    //                 withCredentials : true
+    //             }
+    //         );
 
-            if (response.data.success) {
+    //         if (response.data.success) {
 
-                toast.success("Appointment cancelled successfully");
+    //             toast.success("Appointment cancelled successfully");
 
-                fetchAppointments();
-            }
+    //             fetchAppointments();
+    //         }
 
-        } catch (error) {
+    //     } catch (error) {
 
-            console.log("Cancel Appointment Error:", error);
+    //         console.log("Cancel Appointment Error:", error);
 
-            toast.error("Unable to cancel appointment");
-        }
-    };
+    //         toast.error("Unable to cancel appointment");
+    //     }
+    // };
 
 
     // Fetch appointments when component loads
@@ -124,7 +130,7 @@ const ReceptionistAppointments = () => {
     return (
 
         <>
-            <ReceptionistNavbar/>
+            <ReceptionistNavbar />
             <Container className="mt-4">
 
                 <h2 className="mb-4">
@@ -160,9 +166,7 @@ const ReceptionistAppointments = () => {
 
                                 <th>Reason</th>
 
-                                <th>Status</th>
-
-                                <th>Action</th>
+                                <th>Appointment Status</th>
 
                             </tr>
 
@@ -201,93 +205,6 @@ const ReceptionistAppointments = () => {
 
                                     <td>
                                         {getStatusBadge(appointment.status)}
-                                    </td>
-
-                                    <td>
-
-                                        {appointment.status === "Pending" && (
-
-                                            <>
-                                                <Button
-                                                    variant="success"
-                                                    size="sm"
-                                                    className="me-2"
-                                                    onClick={() =>
-                                                        updateStatus(
-                                                            appointment.appointmentID,
-                                                            "Confirmed"
-                                                        )
-                                                    }
-                                                >
-                                                    Confirm
-                                                </Button>
-
-                                                <Button
-                                                    variant="danger"
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        cancelAppointment(
-                                                            appointment.appointmentID
-                                                        )
-                                                    }
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            </>
-
-                                        )}
-
-
-                                        {appointment.status === "Confirmed" && (
-
-                                            <>
-                                                <Button
-                                                    variant="success"
-                                                    size="sm"
-                                                    className="me-2"
-                                                    onClick={() =>
-                                                        updateStatus(
-                                                            appointment.appointmentID,
-                                                            "Completed"
-                                                        )
-                                                    }
-                                                >
-                                                    Complete
-                                                </Button>
-
-                                                <Button
-                                                    variant="danger"
-                                                    size="sm"
-                                                    onClick={() =>
-                                                        cancelAppointment(
-                                                            appointment.appointmentID
-                                                        )
-                                                    }
-                                                >
-                                                    Cancel
-                                                </Button>
-                                            </>
-
-                                        )}
-
-
-                                        {appointment.status === "Completed" && (
-
-                                            <span className="text-success">
-                                                Completed
-                                            </span>
-
-                                        )}
-
-
-                                        {appointment.status === "Cancelled" && (
-
-                                            <span className="text-danger">
-                                                Cancelled
-                                            </span>
-
-                                        )}
-
                                     </td>
 
                                 </tr>

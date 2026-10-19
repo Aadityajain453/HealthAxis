@@ -13,16 +13,22 @@ const PatientProfile = () => {
 
     const fetchPatientProfile = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/patient/fetchpatientdetails", {
-                ptId: "PAT1001"
-            })
+            const response = await axios.post(
+                "http://localhost:5000/api/patient/fetchpatientdetails",
+                {},
+                {
+                    withCredentials: true
+                }
+            );
 
             console.log(response.data);
             setPatients(response.data);
+
         } catch (error) {
             console.log(error);
         }
-    }
+    };
+    
     return (
         <>
             <PatientNavbar />
@@ -135,7 +141,7 @@ const PatientProfile = () => {
                                     <Link to={'/edit_patient_profile'} className="btn btn-primary px-4">
                                         Edit Profile
                                     </Link>
-                                </div>  
+                                </div>
 
                             </div>
 

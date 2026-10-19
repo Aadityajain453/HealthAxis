@@ -15,16 +15,13 @@ export const MyAppointment = () => {
         try {
 
             const response = await axios.post(
-                "http://localhost:5000/api/appointment/showAppointments"
+                "http://localhost:5000/api/appointment/showAppointments", {}, { withCredentials: true }
             );
 
             console.log(response.data);
 
-            const patientAppointments = response.data.data.filter(
-                (data) => data.patientID === "PAT1001"
-            );
 
-            setAppointment(patientAppointments);
+            setAppointment(response.data.data);
 
         } catch (error) {
             console.log(error);
@@ -39,6 +36,9 @@ export const MyAppointment = () => {
                 "http://localhost:5000/api/appointment/cancelAppointment",
                 {
                     appointmentID: appointmentID
+                },
+                {
+                    withCredentials : true
                 }
             );
 
@@ -167,5 +167,5 @@ export const MyAppointment = () => {
 
             </div>
         </>
-    );  
+    );
 };

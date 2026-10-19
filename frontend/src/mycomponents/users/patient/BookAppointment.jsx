@@ -41,12 +41,14 @@ const BookAppointment = () => {
             const response = await axios.post(
                 "http://localhost:5000/api/appointment/createAppointment",
                 {
-                    patientID: "PAT1001",
                     doctorEmail: doctoremail,
                     appointmentDate: appointmentdate,
                     appointmentTime: appointmenttime,
                     reason: reason,
                     createdBy: "Patient"
+                },
+                {
+                    withCredentials: true
                 }
             );
 

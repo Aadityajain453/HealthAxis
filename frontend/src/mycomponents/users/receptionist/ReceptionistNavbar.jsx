@@ -33,7 +33,7 @@ const ReceptionistNavbar = () => {
           </Nav>
 
           <Nav>
-            <Nav.Link as={Link} to="/logout">
+            <Nav.Link as={Link} to="/">
               Logout
             </Nav.Link>
           </Nav>

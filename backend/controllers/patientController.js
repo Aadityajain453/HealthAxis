@@ -94,24 +94,55 @@ exports.fetchPatientsData = async (req, res) => {
 
 exports.fetchPatientsAllDetails = async (req, res) => {
     try {
+        // Check whether user is logged in
+        if (!req.session.user) {
+            return res.status(401).json({
+                success: false,
+                message: "Please login first"
+            });
+        }
 
-        console.log("Received PatientID", req.body.ptId);
-        const ptID = req.body.ptId
-        const FindSinglePatientRecord = await PatientData.findOne({ patientID: ptID });
+        // Only patients can access this API
+        if (req.session.user.usertype !== "patient") {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied"
+            });
+        }
 
-        console.log("Patient Full Details", FindSinglePatientRecord);
-        res.json(FindSinglePatientRecord);
+        // Get logged-in patient's ID from session
+        const ptID = req.session.user.patientID;
+
+        if (!ptID) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient ID not found in session"
+            });
+        }
+
+        // Fetch only the logged-in patient's record
+        const patient = await PatientData.findOne({
+            patientID: ptID
+        });
+
+        if (!patient) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient record not found"
+            });
+        }
+
+        return res.status(200).json(patient);
 
     } catch (error) {
-        console.log(error);
-        res.status(500).json(
-            {
-                success: false,
-                message: "Something went wrong, try again"
-            }
-        )
+        console.log("Patient Profile Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
     }
-}
+};
 
 
 exports.sendDataForEdit = async (req, res) => {
@@ -137,51 +168,36 @@ exports.sendDataForEdit = async (req, res) => {
 }
 
 
+
 exports.UpdatePatientData = async (req, res) => {
     try {
-
-        await new Promise(resolve => setTimeout(resolve, 1500));
-        console.log("Received Patient Data For Update :", req.body);
-
-        const {
-            firstname,
-            lastname,
-            email,
-            mobile,
-            gender,
-            address,
-            pincode,
-            dob,
-            bloodgroup,
-            city,
-            state,
-            ptId
-        } = req.body;
-
-        if (
-            !firstname ||
-            !lastname ||
-            !mobile ||
-            !gender ||
-            !address ||
-            !pincode ||
-            !dob ||
-            !bloodgroup ||
-            !city ||
-            !state ||
-            !ptId
-        ) {
-            return res.status(400).json({
+        // 1. Check login session
+        if (!req.session.user) {
+            return res.status(401).json({
                 success: false,
-                message: "All required fields are required"
+                message: "Please login first"
             });
         }
 
-        const filter = {
-            patientID: ptId
-        };
+        // 2. Allow only patient role
+        if (req.session.user.usertype !== "patient") {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied"
+            });
+        }
 
-        const Update = {
+        // 3. Get patient ID from verified session
+        const ptID = req.session.user.patientID;
+
+        if (!ptID) {
+            return res.status(404).json({
+                success: false,
+                message: "Patient ID not found in session"
+            });
+        }
+
+        const {
             firstname,
             lastname,
             mobile,
@@ -192,12 +208,46 @@ exports.UpdatePatientData = async (req, res) => {
             bloodgroup,
             city,
             state
-        };
+        } = req.body;
 
+        // 4. Validate required fields
+        if (
+            !firstname?.trim() ||
+            !lastname?.trim() ||
+            !mobile ||
+            !gender ||
+            !address?.trim() ||
+            !pincode ||
+            !dob ||
+            !bloodgroup ||
+            !city?.trim() ||
+            !state?.trim()
+        ) {
+            return res.status(400).json({
+                success: false,
+                message: "All required fields are required"
+            });
+        }
+
+        // 5. Update only the logged-in patient's record
         const UpdatedRecord = await PatientData.findOneAndUpdate(
-            filter,
-            Update,
-            { new: true }
+            { patientID: ptID },
+            {
+                firstname: firstname.trim(),
+                lastname: lastname.trim(),
+                mobile,
+                gender,
+                address: address.trim(),
+                pincode,
+                dob,
+                bloodgroup,
+                city: city.trim(),
+                state: state.trim()
+            },
+            {
+                new: true,
+                runValidators: true
+            }
         );
 
         if (!UpdatedRecord) {
@@ -209,19 +259,20 @@ exports.UpdatePatientData = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Patient data updated successfully",
+            message: "Patient profile updated successfully",
             data: UpdatedRecord
         });
 
     } catch (error) {
-        console.log(error);
+        console.log("Update Patient Profile Error:", error);
 
         return res.status(500).json({
             success: false,
-            Error: "Something went wrong, try again"
+            message: "Something went wrong, try again"
         });
     }
 };
+
 
 exports.patientDeleteAPI = async (req, res) => {
     try {
@@ -275,7 +326,7 @@ exports.searchPatientsData = async (req, res) => {
 
         console.log("Search Data:", req.body);
 
-       const search = req.body.search.trim();
+        const search = req.body.search.trim();
 
         console.log("Search Value:", `"${search}"`);
 

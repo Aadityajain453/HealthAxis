@@ -49,16 +49,16 @@ export const Login = () => {
                     navigate("/admin/dashboard", { replace: true });
                 }
 
-                else if (response.data.usertype === "admin") {
-                    navigate("/");
-                }
+                // else if (response.data.usertype === "admin") {
+                //     navigate("/");
+                // }
 
                 else if (response.data.usertype === "doctor") {
-                    navigate("/doctor-dashboard");
+                    navigate("/doctor/home");
                 }
 
                 else if (response.data.usertype === "receptionist") {
-                    navigate("/receptionist-dashboard");
+                    navigate("/receptionist", { replace: true });
                 }
             }
 
@@ -157,7 +157,7 @@ export const Login = () => {
                             </option>
 
                             <option value="superadmin">Super Admin</option>
-                            <option value="admin">Admin</option>
+                            {/* <option value="admin">Admin</option> */}
                             <option value="doctor">Doctor</option>
                             <option value="receptionist">Receptionist</option>
                             <option value="patient">Patient</option>

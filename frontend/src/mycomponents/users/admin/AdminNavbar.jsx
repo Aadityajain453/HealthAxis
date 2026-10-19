@@ -2,9 +2,11 @@ import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 function AdminNavbar() {
+    
+    const navigate = useNavigate();
     return (
         <Navbar expand="lg" className="bg-body-tertiary">
             <Container>
@@ -45,8 +47,21 @@ function AdminNavbar() {
                             <NavDropdown.Item as={Link} to={'/show_receptionist_details'}>Show Receptionist</NavDropdown.Item>
                         </NavDropdown>
 
+                        <NavDropdown title="Appointment" id="appointment-dropdown">
+                            <NavDropdown.Item
+                                as={Link}
+                                to={'/show_appointments'}
+                            >
+                                Show Appointments
+                            </NavDropdown.Item>
+                        </NavDropdown>
+
 
                     </Nav>
+
+                    <button className='btn btn-danger' onClick={()=> navigate("/",{replace:true})}>
+                        Logout
+                    </button>
                 </Navbar.Collapse>
             </Container>
         </Navbar>

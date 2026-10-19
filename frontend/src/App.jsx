@@ -36,6 +36,10 @@ import ReceptionistEditPatient from './mycomponents/users/receptionist/Reception
 import ReceptionistRegistrataion from './mycomponents/users/admin/ReceptionistRegistration';
 import ShowReceptionist from './mycomponents/users/admin/ShowReceptionist';
 import EditReceptionist from './mycomponents/users/admin/EditReceptionist';
+import ShowAppointments from './mycomponents/users/admin/ShowAppointments';
+import DoctorHome from './mycomponents/users/doctor/DoctorHome';
+import ReceptionistAddPatient from './mycomponents/users/receptionist/ReceptionistAddPatient';
+import DoctorAppointments from './mycomponents/users/doctor/DoctorAppointments';
 
 
 
@@ -54,48 +58,54 @@ function App() {
           theme="light"
         />
         <Routes>
-          <Route path='/' element={<HomePage/>}/>
-          <Route path='/login' element={<Login/>}/>
-          <Route path='/about' element={<About/>}/>
-          <Route path='/service' element={<Service/>}/>
-          <Route path='/features' element={<Features/>}/>
-          <Route path='/doctor' element={<Doctor/>}/>
-          <Route path='/contact' element={<Contact/>}/>
-          <Route path='/patientreg' element={<PatientRegistration/>}/>
+          <Route path='/' element={<HomePage />} />
+          <Route path='/login' element={<Login />} />
+          <Route path='/about' element={<About />} />
+          <Route path='/service' element={<Service />} />
+          <Route path='/features' element={<Features />} />
+          <Route path='/doctor' element={<Doctor />} />
+          <Route path='/contact' element={<Contact />} />
+          <Route path='/patientreg' element={<PatientRegistration />} />
 
           <Route path='/admin/dashboard' element={<AdminDashboard />} />
           <Route path='/addadmin' element={<AdminReg />} />
           <Route path='/showadmin' element={<ShowAdmin />} />
           <Route path='/superadminprofile' element={<SuperAdminProfile />} />
-          <Route path='/edit_admin/:eml' element={< EditAdmin/>} />
-          <Route path='/edit_superadmin/:eml' element={< EditSuperAdmin/>} />
-          <Route path='/adddoctor' element={<DoctorRegistration/>}/>
-          <Route path='/showdoctor' element={<ShowDoctors/>}/>
-          <Route path='/edit_doctor/:eml' element={<EditDoctor/>}/>
-          <Route path='/addpatient' element={<AddPatient/>}/>
-          <Route path='/showpatient' element={<ShowPatients/>}/>
-          <Route path='/view_patient/:ptId' element={<ViewPatientsFullDetails/>}/>
-          <Route path='/edit_patient/:ptId' element={<EditPatient/>}/>
-          <Route path='/receptionist_registration' element={<ReceptionistRegistrataion/>}/>
-          <Route path='/show_receptionist_details' element={<ShowReceptionist/>}/>
+          <Route path='/edit_admin/:eml' element={< EditAdmin />} />
+          <Route path='/edit_superadmin/:eml' element={< EditSuperAdmin />} />
+          <Route path='/adddoctor' element={<DoctorRegistration />} />
+          <Route path='/showdoctor' element={<ShowDoctors />} />
+          <Route path='/edit_doctor/:eml' element={<EditDoctor />} />
+          <Route path='/addpatient' element={<AddPatient />} />
+          <Route path='/showpatient' element={<ShowPatients />} />
+          <Route path='/view_patient/:ptId' element={<ViewPatientsFullDetails />} />
+          <Route path='/edit_patient/:ptId' element={<EditPatient />} />
+          <Route path='/receptionist_registration' element={<ReceptionistRegistrataion />} />
+          <Route path='/show_receptionist_details' element={<ShowReceptionist />} />
+          <Route path='/show_appointments' element={<ShowAppointments />} />
 
-          <Route path='/book-appointment' element={<BookAppointment/>}/>
-          <Route path='/patient/home' element={<PatientHome/>}/>
-          <Route path='/my-appointment' element={<MyAppointment/>}/>
-          <Route path='/myprofile' element={<PatientProfile/>}/>
-          <Route path='/edit_patient_profile' element={<EditPatientProfile/>}/>
-          
+          <Route path='/book-appointment' element={<BookAppointment />} />
+          <Route path='/patient/home' element={<PatientHome />} />
+          <Route path='/my-appointment' element={<MyAppointment />} />
+          <Route path='/myprofile' element={<PatientProfile />} />
+          <Route path='/edit_patient_profile' element={<EditPatientProfile />} />
 
-          <Route path='/receptionist' element={<ReceptionistHome/>}/>
-          <Route path='/receptionist/appointments' element={<ReceptionistAppointments/>}/>
-          <Route path='/receptionist/patients' element={<ReceptionistPatients/>}/>
-          <Route path='/receptionist/patients/view/:ptId' element={<ReceptionistViewPatient/>}/>
-          <Route path='/receptionist/patients/edit/:ptId' element={<ReceptionistEditPatient/>}/>
-          <Route path='/edit_receptionist/:email' element={<EditReceptionist/>}/>
+
+          <Route path='/receptionist' element={<ReceptionistHome />} />
+          <Route path='/receptionist/appointments' element={<ReceptionistAppointments />} />
+          <Route path='/receptionist/patients' element={<ReceptionistPatients />} />
+          <Route path='/receptionist/patients/view/:ptId' element={<ReceptionistViewPatient />} />
+          <Route path='/receptionist/patients/edit/:ptId' element={<ReceptionistEditPatient />} />
+          <Route path='/edit_receptionist/:email' element={<EditReceptionist />} />
+          <Route path="/receptionist/patients/add" element={<ReceptionistAddPatient />} />
+
+          <Route path="/doctor/home" element={<DoctorHome />} />
+          <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+
         </Routes>
       </Router>
     </>
   )
 }
 
-export default App
+export default App;
