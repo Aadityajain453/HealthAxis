@@ -6,5 +6,6 @@ router.post('/registerreceptionist', ReceptionistController.getReceptionistRegDa
 router.post('/showreceptionists', ReceptionistController.showReceptionists);
 router.post('/fetcheditreceptionist', ReceptionistController.sendEditReceptionistData);
 router.put('/updatereceptionist', ReceptionistController.updateReceptionistData);
+router.delete('/deletereceptionist',ReceptionistController.DeleteReceptionistData);
 
 module.exports = router;

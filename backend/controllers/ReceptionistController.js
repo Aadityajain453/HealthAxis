@@ -158,7 +158,7 @@ exports.updateReceptionistData = async (req, res) => {
         const updateReceptionistRecord = await ReceptionistData.findOneAndUpdate(
             { email: email, role: "receptionist" },
             { firstname, lastname, mobile, gender, status },
-            { new: true, runValidators: true }
+            { returnDocument: "after", runValidators: true }
         );
 
         if (!updateReceptionistRecord) {
@@ -183,3 +183,42 @@ exports.updateReceptionistData = async (req, res) => {
         });
     }
 }
+
+exports.DeleteReceptionistData = async (req, res) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) {
+            return res.status(400).json({
+                success: false,
+                message: "Email is required"
+            });
+        }
+
+        const findReceptionistRecord = await ReceptionistData.findOne({ email: email, role: "receptionist" });
+
+        if (!findReceptionistRecord) {
+            return res.status(404).json({
+                success: false,
+                message: "Receptionist not found"
+            });
+        }
+
+        await ReceptionistData.deleteOne({ email: email, role: "receptionist" });
+
+        await SecurityData.deleteOne({ email: email, usertype: "receptionist" });
+
+        return res.status(200).json({
+            success: true,
+            message: "Receptionist deleted successfully",
+
+        })
+    } catch (error) {
+        console.log(error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong, try again"
+        });
+    }
+};
