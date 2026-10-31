@@ -16,7 +16,7 @@ export const ShowAppointments = () => {
     const displayAppointments = async () => {
         try {
             const response = await axios.post(
-                "http://localhost:5000/api/appointment/showAppointments"
+                "http://localhost:5000/api/appointment/showAppointments",{},{withCredentials:true}
             );
 
             if (response.data.success) {
@@ -38,6 +38,9 @@ export const ShowAppointments = () => {
                 {
                     appointmentID,
                     status
+                },
+                {
+                    withCredentials : true
                 }
             );
 

@@ -4,13 +4,22 @@ import Table from 'react-bootstrap/Table';
 import Alert from 'react-bootstrap/Alert';
 import Spinner from 'react-bootstrap/Spinner';
 import DoctorNavbar from './DoctorNavbar';
+import Modal from 'react-bootstrap/Modal';
+import Button from 'react-bootstrap/Button';
 import axios from 'axios';
 
 const DoctorAppointments = () => {
     const [appointments, setAppointments] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState('');
+    const [selectedPatient, setSelectedPatient] = useState(null);
+    const [showPatientModal, setShowPatientModal] = useState(false);
 
+
+    const handleViewPatient = (patient) => {
+        setSelectedPatient(patient);
+        setShowPatientModal(true);
+    };
 
     const handleUpdateStatus = async (appointmentID, status) => {
         try {
@@ -124,7 +133,18 @@ const DoctorAppointments = () => {
                                     <td>{appointment.reason}</td>
                                     <td>{appointment.status}</td>
                                     <td>
+                                        <Button
+                                            variant="info"
+                                            size="sm"
+                                            className="me-2"
+                                            onClick={() => handleViewPatient(appointment.patient)}
+                                            disabled={!appointment.patient}
+                                        >
+                                            View
+                                        </Button>
+
                                         {appointment.status === 'Pending' && (
+
                                             <button
                                                 className="btn btn-success btn-sm me-2"
                                                 onClick={() =>
@@ -190,6 +210,43 @@ const DoctorAppointments = () => {
                         </tbody>
                     </Table>
                 )}
+
+                <Modal
+                    show={showPatientModal}
+                    onHide={() => setShowPatientModal(false)}
+                    centered
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>Patient Details</Modal.Title>
+                    </Modal.Header>
+
+                    <Modal.Body>
+                        {selectedPatient && (
+                            <>
+                                <p><strong>Patient ID:</strong> {selectedPatient.patientID || 'N/A'}</p>
+                                <p><strong>Name:</strong> {selectedPatient.firstname} {selectedPatient.lastname}</p>
+                                <p><strong>Email:</strong> {selectedPatient.email || 'N/A'}</p>
+                                <p><strong>Mobile:</strong> {selectedPatient.mobile || 'N/A'}</p>
+                                <p><strong>Date of Birth:</strong> {selectedPatient.dob ? new Date(selectedPatient.dob).toLocaleDateString() : 'N/A'}</p>
+                                <p><strong>Gender:</strong> {selectedPatient.gender || 'N/A'}</p>
+                                <p><strong>Blood Group:</strong> {selectedPatient.bloodgroup || 'N/A'}</p>
+                                <p><strong>Address:</strong> {selectedPatient.address || 'N/A'}</p>
+                                <p><strong>City:</strong> {selectedPatient.city || 'N/A'}</p>
+                                <p><strong>State:</strong> {selectedPatient.state || 'N/A'}</p>
+                                <p><strong>Pincode:</strong> {selectedPatient.pincode || 'N/A'}</p>
+                            </>
+                        )}
+                    </Modal.Body>
+
+                    <Modal.Footer>
+                        <Button
+                            variant="secondary"
+                            onClick={() => setShowPatientModal(false)}
+                        >
+                            Close
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
             </Container>
         </>
     );

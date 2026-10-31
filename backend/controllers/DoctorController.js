@@ -219,3 +219,162 @@ exports.getDeleteDoctor = async (req, res) => {
         })
     }
 }
+
+// GET LOGGED-IN DOCTOR PROFILE
+exports.getMyDoctorProfile = async (req, res) => {
+    try {
+        // Check login session
+        if (!req.session.user) {
+            return res.status(401).json({
+                success: false,
+                message: "Please login first"
+            });
+        }
+
+        // Only doctor can access this API
+        if (req.session.user.usertype !== "doctor") {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied"
+            });
+        }
+
+        // Fetch doctor using logged-in email
+        const doctor = await DoctorData.findOne({
+            email: req.session.user.email,
+            role: "doctor"
+        }).select("-__v");
+
+        if (!doctor) {
+            return res.status(404).json({
+                success: false,
+                message: "Doctor profile not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Doctor profile fetched successfully",
+            data: doctor
+        });
+
+    } catch (error) {
+        console.log("Get Doctor Profile Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+};
+
+
+// UPDATE LOGGED-IN DOCTOR PROFILE
+exports.updateMyDoctorProfile = async (req, res) => {
+    try {
+        // Check login session
+        if (!req.session.user) {
+            return res.status(401).json({
+                success: false,
+                message: "Please login first"
+            });
+        }
+
+        // Only doctor can update own profile
+        if (req.session.user.usertype !== "doctor") {
+            return res.status(403).json({
+                success: false,
+                message: "Access denied"
+            });
+        }
+
+        const { firstname, lastname, mobile, gender, experience } = req.body;
+
+        // Validate required fields
+        if (!firstname?.trim() || !lastname?.trim() || !mobile || !gender ||
+            experience === undefined || experience === null || experience === "") {
+            return res.status(400).json({
+                success: false,
+                message: "Please fill all required fields"
+            });
+        }
+
+        // Validate names
+        const namePattern = /^[a-zA-Z ]+$/;
+
+        if (!namePattern.test(firstname.trim()) || !namePattern.test(lastname.trim())) {
+            return res.status(400).json({
+                success: false,
+                message: "Names must contain only alphabets"
+            });
+        }
+
+        // Validate mobile number
+        if (!/^[6-9][0-9]{9}$/.test(mobile)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid mobile number"
+            });
+        }
+
+        // Validate gender
+        if (!["Male", "Female"].includes(gender)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid gender"
+            });
+        }
+
+        // Validate experience
+        const experienceValue = Number(experience);
+
+        if (!Number.isFinite(experienceValue) || experienceValue < 0) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid experience"
+            });
+        }
+
+        // Update only allowed fields using session email
+        const updatedDoctor = await DoctorData.findOneAndUpdate(
+            {
+                email: req.session.user.email,
+                role: "doctor"
+            },
+            {
+                $set: {
+                    firstname: firstname.trim(),
+                    lastname: lastname.trim(),
+                    mobile,
+                    gender,
+                    experience: experienceValue
+                }
+            },
+            {
+                new: true,
+                runValidators: true
+            }
+        ).select("-__v");
+
+        if (!updatedDoctor) {
+            return res.status(404).json({
+                success: false,
+                message: "Doctor profile not found"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Doctor profile updated successfully",
+            data: updatedDoctor
+        });
+
+    } catch (error) {
+        console.log("Update Doctor Profile Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Something went wrong"
+        });
+    }
+};

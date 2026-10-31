@@ -80,6 +80,7 @@ exports.showAppointments = async (req, res) => {
         }
 
         const { usertype, email, patientID } = req.session.user;
+
         let appointments;
 
         if (usertype === "patient") {
@@ -99,7 +100,7 @@ exports.showAppointments = async (req, res) => {
                 doctorEmail: email
             }).sort({ createdAt: -1 });
 
-        } else if (["admin", "receptionist"].includes(usertype)) {
+        } else if (["admin", "superadmin", "receptionist"].includes(usertype)) {
             appointments = await AppointmentData.find()
                 .sort({ createdAt: -1 });
 
@@ -115,16 +116,24 @@ exports.showAppointments = async (req, res) => {
             appointments.map(async (appointment) => {
                 const patient = await PatientData.findOne({
                     patientID: appointment.patientID
-                }).select("firstname lastname email mobile");
+                }).select("patientID firstname lastname email mobile dob gender bloodgroup address city state pincode");
 
                 return {
                     ...appointment.toObject(),
                     patient: patient
                         ? {
+                            patientID: patient.patientID,
                             firstname: patient.firstname,
                             lastname: patient.lastname,
                             email: patient.email,
-                            mobile: patient.mobile
+                            mobile: patient.mobile,
+                            dob: patient.dob,
+                            gender: patient.gender,
+                            bloodgroup: patient.bloodgroup,
+                            address: patient.address,
+                            city: patient.city,
+                            state: patient.state,
+                            pincode: patient.pincode
                         }
                         : null
                 };
@@ -163,7 +172,7 @@ exports.updateAppointmentStatus = async (req, res) => {
         }
 
         // Only doctor and admin can update appointment status
-        if (!["doctor", "admin"].includes(req.session.user.usertype)) {
+        if (!["doctor", "superadmin", "admin"].includes(req.session.user.usertype)) {
             return res.status(403).json({
                 success: false,
                 message: "You are not authorized to update appointment status"

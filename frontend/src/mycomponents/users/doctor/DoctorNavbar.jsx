@@ -23,6 +23,10 @@ const DoctorNavbar = () => {
                         <Nav.Link as={Link} to="/doctor/appointments">
                             My Appointments
                         </Nav.Link>
+
+                        <Nav.Link as={Link} to="/doctor/profile">
+                            My Profile
+                        </Nav.Link>
                     </Nav>
 
                     <Nav>

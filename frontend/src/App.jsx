@@ -40,6 +40,7 @@ import ShowAppointments from './mycomponents/users/admin/ShowAppointments';
 import DoctorHome from './mycomponents/users/doctor/DoctorHome';
 import ReceptionistAddPatient from './mycomponents/users/receptionist/ReceptionistAddPatient';
 import DoctorAppointments from './mycomponents/users/doctor/DoctorAppointments';
+import DoctorProfile from './mycomponents/users/doctor/DoctorProfile';
 
 
 
@@ -101,6 +102,7 @@ function App() {
 
           <Route path="/doctor/home" element={<DoctorHome />} />
           <Route path="/doctor/appointments" element={<DoctorAppointments />} />
+          <Route path="/doctor/profile" element={<DoctorProfile />} />
 
         </Routes>
       </Router>
