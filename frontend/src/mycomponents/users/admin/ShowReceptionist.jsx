@@ -116,7 +116,7 @@ export const ShowReceptionist = () => {
                                 <td>
                                     <Link
                                         className="btn btn-success btn-sm me-2"
-                                        to={"/edit_receptionist/" + item.email}
+                                        to={"/admin/edit_receptionist/" + item.email}
                                     >
                                         Edit
                                     </Link>

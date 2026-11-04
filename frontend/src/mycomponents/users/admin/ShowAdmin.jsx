@@ -93,7 +93,7 @@ export const ShowAdmin = () => {
                                 <td>{items.gender}</td>
                                 <td>{items.role}</td>
                                 <td>
-                                    <Link className="btn btn-warning btn-sm me-2" to={'/edit_admin/' + items.email}>Edit</Link>
+                                    <Link className="btn btn-warning btn-sm me-2" to={'/admin/edit_admin/' + items.email}>Edit</Link>
 
                                     <button onClick={() => handleDeleteAdmin(items.email)} className="btn btn-danger btn-sm me-2" >Delete</button>
                                 </td>

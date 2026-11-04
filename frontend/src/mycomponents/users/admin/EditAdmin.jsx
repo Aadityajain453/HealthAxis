@@ -118,7 +118,7 @@ export const EditAdmin = () => {
             if (result.message === "Admin updated successfully") {
                 toast.success("Admin updated successfully");
                 setTimeout(() => {
-                    navigate("/showadmin", { replace: true });
+                    navigate("/admin/showadmin", { replace: true });
                 }, 2000);
 
             }
@@ -135,7 +135,7 @@ export const EditAdmin = () => {
     return (
         <>
             <AdminNavbar />
-            <button onClick={() => navigate('/showadmin', { replace: true })} className="btn btn-secondary mx-5 my-3" style={{ float: "right" }}>back</button>
+            <button onClick={() => navigate('/admin/showadmin', { replace: true })} className="btn btn-secondary mx-5 my-3" style={{ float: "right" }}>back</button>
             <div className="container">
 
                 <h2 className="text-center mt-3">Update Admin Profile</h2>

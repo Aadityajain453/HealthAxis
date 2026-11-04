@@ -109,7 +109,7 @@ const SuperAdminProfile = () => {
 
 
                                 <div className="text-center">
-                                   <Link className="btn btn-warning px-4 fw-bold" to={'/edit_superadmin/' + superadmin.email}>Edit</Link>
+                                   <Link className="btn btn-warning px-4 fw-bold" to={'/admin/edit_superadmin/' + superadmin.email}>Edit</Link>
                                 </div>
 
                             </>

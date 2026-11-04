@@ -127,9 +127,9 @@ export const ShowPatients = () => {
                                 <td>{items.bloodgroup}</td>
                                 <td>{items.city}</td>
                                 <td className="px-4">
-                                    <Link to={'/view_patient/' + items.patientID} className="btn btn-primary btn-sm" >View</Link>
+                                    <Link to={'/admin/view_patient/' + items.patientID} className="btn btn-primary btn-sm" >View</Link>
 
-                                    <Link to={'/edit_patient/' + items.patientID} className="btn btn-warning btn-sm ms-3">Edit</Link>
+                                    <Link to={'/admin/edit_patient/' + items.patientID} className="btn btn-warning btn-sm ms-3">Edit</Link>
 
                                     <button onClick={() => handleDeletePatient(items.patientID)} className="btn btn-danger btn-sm ms-3 ">Delete</button>
 

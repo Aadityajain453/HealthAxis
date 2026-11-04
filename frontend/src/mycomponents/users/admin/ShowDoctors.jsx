@@ -94,7 +94,7 @@ export const ShowDoctors = () => {
                                 <td>{item.consultation_fee}</td>
                                 <td>{item.status}</td>
                                 <td>
-                                    <Link className="btn btn-success btn-sm mb-2" to={"/edit_doctor/" + item.email}>Edit</Link>
+                                    <Link className="btn btn-success btn-sm mb-2" to={"/admin/edit_doctor/" + item.email}>Edit</Link>
 
                                     <button onClick={() => handleDeleteDoctor(item.email)} className="btn btn-danger btn-sm ">Delete</button>
                                 </td>

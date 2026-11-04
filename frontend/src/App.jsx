@@ -41,6 +41,7 @@ import DoctorHome from './mycomponents/users/doctor/DoctorHome';
 import ReceptionistAddPatient from './mycomponents/users/receptionist/ReceptionistAddPatient';
 import DoctorAppointments from './mycomponents/users/doctor/DoctorAppointments';
 import DoctorProfile from './mycomponents/users/doctor/DoctorProfile';
+import ProtectedRoute from './mycomponents/ProtectedRoute';
 
 
 
@@ -68,41 +69,241 @@ function App() {
           <Route path='/contact' element={<Contact />} />
           <Route path='/patientreg' element={<PatientRegistration />} />
 
-          <Route path='/admin/dashboard' element={<AdminDashboard />} />
-          <Route path='/addadmin' element={<AdminReg />} />
-          <Route path='/showadmin' element={<ShowAdmin />} />
-          <Route path='/superadminprofile' element={<SuperAdminProfile />} />
-          <Route path='/edit_admin/:eml' element={< EditAdmin />} />
-          <Route path='/edit_superadmin/:eml' element={< EditSuperAdmin />} />
-          <Route path='/adddoctor' element={<DoctorRegistration />} />
-          <Route path='/showdoctor' element={<ShowDoctors />} />
-          <Route path='/edit_doctor/:eml' element={<EditDoctor />} />
-          <Route path='/addpatient' element={<AddPatient />} />
-          <Route path='/showpatient' element={<ShowPatients />} />
-          <Route path='/view_patient/:ptId' element={<ViewPatientsFullDetails />} />
-          <Route path='/edit_patient/:ptId' element={<EditPatient />} />
-          <Route path='/receptionist_registration' element={<ReceptionistRegistrataion />} />
-          <Route path='/show_receptionist_details' element={<ShowReceptionist />} />
-          <Route path='/show_appointments' element={<ShowAppointments />} />
+          <Route path='/admin/dashboard' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
 
-          <Route path='/book-appointment' element={<BookAppointment />} />
-          <Route path='/patient/home' element={<PatientHome />} />
-          <Route path='/my-appointment' element={<MyAppointment />} />
-          <Route path='/myprofile' element={<PatientProfile />} />
-          <Route path='/edit_patient_profile' element={<EditPatientProfile />} />
+          <Route path='/admin/addadmin' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <AdminReg />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/showadmin' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ShowAdmin />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/superadminprofile' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <SuperAdminProfile />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/edit_admin/:eml' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <EditAdmin />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/edit_superadmin/:eml' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <EditSuperAdmin />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/adddoctor' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <DoctorRegistration />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/showdoctor' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ShowDoctors />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/edit_doctor/:eml' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <EditDoctor />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/addpatient' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <AddPatient />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/showpatient' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ShowPatients />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/view_patient/:ptId' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ViewPatientsFullDetails />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/edit_patient/:ptId' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <EditPatient />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/receptionist_registration' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ReceptionistRegistrataion />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/show_receptionist_details' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ShowReceptionist />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/show_appointments' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <ShowAppointments />
+            </ProtectedRoute>
+          } />
+
+          <Route path='/admin/edit_receptionist/:email' element={
+            <ProtectedRoute allowedRole="superadmin">
+              <EditReceptionist />
+            </ProtectedRoute>
+          } />
 
 
-          <Route path='/receptionist' element={<ReceptionistHome />} />
-          <Route path='/receptionist/appointments' element={<ReceptionistAppointments />} />
-          <Route path='/receptionist/patients' element={<ReceptionistPatients />} />
-          <Route path='/receptionist/patients/view/:ptId' element={<ReceptionistViewPatient />} />
-          <Route path='/receptionist/patients/edit/:ptId' element={<ReceptionistEditPatient />} />
-          <Route path='/edit_receptionist/:email' element={<EditReceptionist />} />
-          <Route path="/receptionist/patients/add" element={<ReceptionistAddPatient />} />
 
-          <Route path="/doctor/home" element={<DoctorHome />} />
-          <Route path="/doctor/appointments" element={<DoctorAppointments />} />
-          <Route path="/doctor/profile" element={<DoctorProfile />} />
+          <Route
+            path="/book-appointment"
+            element={
+              <ProtectedRoute allowedRole="patient">
+                <BookAppointment />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/patient/home"
+            element={
+              <ProtectedRoute allowedRole="patient">
+                <PatientHome />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/my-appointment"
+            element={
+              <ProtectedRoute allowedRole="patient">
+                <MyAppointment />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/myprofile"
+            element={
+              <ProtectedRoute allowedRole="patient">
+                <PatientProfile />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/edit_patient_profile"
+            element={
+              <ProtectedRoute allowedRole="patient">
+                <EditPatientProfile />
+              </ProtectedRoute>
+            }
+          />
+
+
+
+
+
+          <Route
+            path="/receptionist"
+            element={
+              <ProtectedRoute allowedRole="receptionist">
+                <ReceptionistHome />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/receptionist/appointments"
+            element={
+              <ProtectedRoute allowedRole="receptionist">
+                <ReceptionistAppointments />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/receptionist/patients"
+            element={
+              <ProtectedRoute allowedRole="receptionist">
+                <ReceptionistPatients />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/receptionist/patients/view/:ptId"
+            element={
+              <ProtectedRoute allowedRole="receptionist">
+                <ReceptionistViewPatient />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/receptionist/patients/edit/:ptId"
+            element={
+              <ProtectedRoute allowedRole="receptionist">
+                <ReceptionistEditPatient />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/receptionist/patients/add"
+            element={
+              <ProtectedRoute allowedRole="receptionist">
+                <ReceptionistAddPatient />
+              </ProtectedRoute>
+            }
+          />
+
+
+
+          <Route
+            path="/doctor/home"
+            element={
+              <ProtectedRoute allowedRole="doctor">
+                <DoctorHome />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/doctor/appointments"
+            element={
+              <ProtectedRoute allowedRole="doctor">
+                <DoctorAppointments />
+              </ProtectedRoute>
+            }
+          />
+
+          <Route
+            path="/doctor/profile"
+            element={
+              <ProtectedRoute allowedRole="doctor">
+                <DoctorProfile />
+              </ProtectedRoute>
+            }
+          />
 
         </Routes>
       </Router>

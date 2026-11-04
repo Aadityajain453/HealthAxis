@@ -71,7 +71,7 @@ export const EditSuperAdmin = () => {
             if (ComingRecord.message === "SuperAdmin updated") {
                 toast.success("Your Data updated successfully");
                 setTimeout(() => {
-                    navigate('/superadminprofile', { replace: true });
+                    navigate('/admin/superadminprofile', { replace: true });
                 }, 2000);
 
             }

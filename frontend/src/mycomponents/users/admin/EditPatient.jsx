@@ -30,7 +30,7 @@ export const EditPatient = () => {
 
     const fetchPatientsForEdit = async () => {
         try {
-            const response = await axios.get(`http://localhost:5000/api/patient/fetchpatientforedit/${ptId}`);
+            const response = await axios.get(`http://localhost:5000/api/patient/fetchpatientforedit/${ptId}`,{withCredentials : true});
 
             setFirstName(response.data.firstname);
             setLastName(response.data.lastname);
@@ -223,14 +223,18 @@ export const EditPatient = () => {
 
             const response = await axios.put("http://localhost:5000/api/patient/UpdatePatientData", {
                 firstname, lastname, email, mobile, gender, bloodgroup, city, state, pincode, dob, address, ptId
-            });
+            },
+                {
+                    withCredentials : true
+                }
+            );
 
             console.log(response.data);
 
             if (response.data.success) {
                 toast.success(response.data.message);
                 setTimeout(() => {
-                    navigate('/showpatient', { replace: true });
+                    navigate('/admin/showpatient', { replace: true });
                 }, 1000);
 
             }

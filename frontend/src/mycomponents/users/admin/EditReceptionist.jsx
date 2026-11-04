@@ -152,7 +152,7 @@ export const EditReceptionist = () => {
 
                 toast.success("Receptionist updated successfully");
 
-                navigate("/show_receptionist_details");
+                navigate("/admin/show_receptionist_details");
             }
 
         } catch (error) {
@@ -315,7 +315,7 @@ export const EditReceptionist = () => {
                                 className="btn btn-secondary"
                                 disabled={loading}
                                 onClick={() =>
-                                    navigate("/show_receptionist_details")
+                                    navigate("/admin/show_receptionist_details")
                                 }
                             >
                                 Cancel

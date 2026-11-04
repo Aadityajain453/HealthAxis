@@ -102,3 +102,65 @@ exports.loginUser = async (req, res) => {
         });
     }
 };
+
+exports.logoutUser = (req, res) => {
+    try {
+        if (!req.session) {
+            return res.status(200).json({
+                success: true,
+                message: "Already logged out"
+            });
+        }
+
+        req.session.destroy((err) => {
+            if (err) {
+                console.log("Logout Error:", err);
+
+                return res.status(500).json({
+                    success: false,
+                    message: "Logout failed"
+                });
+            }
+
+            res.clearCookie("connect.sid");
+
+            return res.status(200).json({
+                success: true,
+                message: "Logout successful"
+            });
+        });
+
+    } catch (error) {
+        console.log("Logout Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};
+
+exports.checkSession = (req, res) => {
+    try {
+        if (!req.session || !req.session.user) {
+            return res.status(401).json({
+                success: false,
+                message: "Please login first"
+            });
+        }
+
+        return res.status(200).json({
+            success: true,
+            message: "Session is active",
+            user: req.session.user
+        });
+
+    } catch (error) {
+        console.log("Session Check Error:", error);
+
+        return res.status(500).json({
+            success: false,
+            message: "Server error"
+        });
+    }
+};

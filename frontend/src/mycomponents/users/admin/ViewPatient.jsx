@@ -18,7 +18,7 @@ export const ViewPatientsFullDetails = () => {
 
     const fetchPatientDetails = async () => {
         try {
-            const response = await axios.post("http://localhost:5000/api/patient/fetchpatientdetails",{ptId});
+            const response = await axios.post("http://localhost:5000/api/patient/fetchpatientdetails",{ptId},{withCredentials : true});
 
             setPatientProfile(response.data);
             console.log("Patient Details:", response.data);

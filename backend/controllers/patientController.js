@@ -92,35 +92,45 @@ exports.fetchPatientsData = async (req, res) => {
     }
 }
 
+
 exports.fetchPatientsAllDetails = async (req, res) => {
     try {
-        // Check whether user is logged in
-        if (!req.session.user) {
+
+        // 1. Check login session
+        if (!req.session || !req.session.user) {
             return res.status(401).json({
                 success: false,
                 message: "Please login first"
             });
         }
 
-        // Only patients can access this API
-        if (req.session.user.usertype !== "patient") {
+        const usertype = req.session.user.usertype;
+
+        // 2. Allow only Superadmin and Patient
+        if (usertype !== "superadmin" && usertype !== "patient") {
             return res.status(403).json({
                 success: false,
                 message: "Access denied"
             });
         }
 
-        // Get logged-in patient's ID from session
-        const ptID = req.session.user.patientID;
+        // 3. Get Patient ID according to role
+        let ptID;
+
+        if (usertype === "superadmin") {
+            ptID = req.body.ptId;
+        } else {
+            ptID = req.session.user.patientID;
+        }
 
         if (!ptID) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: false,
-                message: "Patient ID not found in session"
+                message: "Patient ID not found"
             });
         }
 
-        // Fetch only the logged-in patient's record
+        // 4. Fetch patient details
         const patient = await PatientData.findOne({
             patientID: ptID
         });
@@ -135,7 +145,7 @@ exports.fetchPatientsAllDetails = async (req, res) => {
         return res.status(200).json(patient);
 
     } catch (error) {
-        console.log("Patient Profile Error:", error);
+        console.log("Fetch Patient Details Error:", error);
 
         return res.status(500).json({
             success: false,
@@ -171,29 +181,38 @@ exports.sendDataForEdit = async (req, res) => {
 
 exports.UpdatePatientData = async (req, res) => {
     try {
+
         // 1. Check login session
-        if (!req.session.user) {
+        if (!req.session || !req.session.user) {
             return res.status(401).json({
                 success: false,
                 message: "Please login first"
             });
         }
 
-        // 2. Allow only patient role
-        if (req.session.user.usertype !== "patient") {
+        const usertype = req.session.user.usertype;
+
+        // 2. Allow only Superadmin and Patient
+        if (usertype !== "superadmin" && usertype !== "patient") {
             return res.status(403).json({
                 success: false,
                 message: "Access denied"
             });
         }
 
-        // 3. Get patient ID from verified session
-        const ptID = req.session.user.patientID;
+        // 3. Determine which patient can be updated
+        let ptID;
+
+        if (usertype === "superadmin") {
+            ptID = req.body.ptId;
+        } else {
+            ptID = req.session.user.patientID;
+        }
 
         if (!ptID) {
-            return res.status(404).json({
+            return res.status(400).json({
                 success: false,
-                message: "Patient ID not found in session"
+                message: "Patient ID not found"
             });
         }
 
@@ -229,7 +248,7 @@ exports.UpdatePatientData = async (req, res) => {
             });
         }
 
-        // 5. Update only the logged-in patient's record
+        // 5. Update patient
         const UpdatedRecord = await PatientData.findOneAndUpdate(
             { patientID: ptID },
             {
@@ -259,12 +278,12 @@ exports.UpdatePatientData = async (req, res) => {
 
         return res.status(200).json({
             success: true,
-            message: "Patient profile updated successfully",
+            message: "Patient details updated successfully",
             data: UpdatedRecord
         });
 
     } catch (error) {
-        console.log("Update Patient Profile Error:", error);
+        console.log("Update Patient Error:", error);
 
         return res.status(500).json({
             success: false,

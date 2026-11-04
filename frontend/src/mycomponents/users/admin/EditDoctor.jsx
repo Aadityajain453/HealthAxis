@@ -281,7 +281,7 @@ export const EditDoctor = () => {
             if (result.message === "Doctor Data Updated Successfully") {
                 toast.success("Data updated successfully");
                 setTimeout(() => {
-                    navigate('/showdoctor', { replace: true });
+                    navigate('/admin/showdoctor', { replace: true });
                 }, 2000);
 
             }
@@ -295,7 +295,7 @@ export const EditDoctor = () => {
     return (
         <>
             <AdminNavbar />
-            <button onClick={() => navigate('/showdoctor', { replace: true })} className="btn btn-warning my-3 mx-5" style={{ float: "right" }}>back</button>
+            <button onClick={() => navigate('/admin/showdoctor', { replace: true })} className="btn btn-warning my-3 mx-5" style={{ float: "right" }}>back</button>
             <div className="container">
                 <h2 className="text-center mt-4">Update Doctor Profile</h2>
                 <div className="my-3">
